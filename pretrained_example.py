@@ -1,5 +1,5 @@
-from .src.model import StopAndHop
-from .src.utils import computeAUC
+from src.model import StopAndHop
+from src.utils import computeAUC
 import torch
 import numpy as np
 

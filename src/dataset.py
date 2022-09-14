@@ -32,6 +32,35 @@ class ExtraSensory(data.Dataset):
     def __getitem__(self, ix):
         return self.data[ix], self.labels[ix]
 
+class COVIDdata(data.Dataset):
+    def __init__(self, path_to_data):
+        """
+        This is a class for loading ExtraSensory datasets.
+
+        Parameters
+        ----------
+        path_to_data : str
+            This path should point to the directory containing train.pt and test.pt
+        """
+        super(ExtraSensory).__init__()
+        X_train, y_train = torch.load(os.path.join(path_to_data, "train.pt"))
+        X_test, y_test = torch.load(os.path.join(path_to_data, "test.pt"))
+
+        self.data = X_train + X_test
+        self.labels = torch.hstack([y_train, y_test]).squeeze()
+
+        self.train_ix = np.arange(len(X_train))
+        self.test_ix = len(X_train) + np.arange(len(X_test))
+
+        self.data_config = {
+            "N_FEATURES" : 37
+            "N_CLASSES" : 2,
+            "nsteps" : 100,
+        }
+
+    def __getitem__(self, ix):
+        return self.data[ix], self.labels[ix]
+    
 class SyntheticData(data.Dataset):
     def __init__(self, N=10000, T=10, mode="early_late"):
         """
