@@ -1,2 +1,6 @@
 ./data/
 data.zip
+*.json
+*.jsonl
+*.csv 
+*.pt
